@@ -1,0 +1,48 @@
+# Options
+setopt correctall
+setopt autocd       # Type a path and go there. Saves 3 whopping keystrokes!
+unsetopt clobber beep
+
+# Awesome globs
+setopt extendedglob
+setopt dotglob
+
+# Be polite about notifying background process termination
+setopt no_notify
+
+# Autocompletion
+autoload -U compinit
+compinit
+
+# Case-insensitive auto-completion
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+
+# Get colours and such:
+source ~/.zsh/prompt_colours
+
+# Prompt stuff!
+PROMPT="${FS_MANE}%n${FS_OUTLINE}@${FS_BODY}%m ${FS_EYE_LIGHT}%20<..<%c%<<${RESET} %(?..${FS_MANE_OUTLINE}%?${RESET} )%(!.%B#.$) "
+RPROMPT="${FS_EYE_DARK}[${FS_EYE_LIGHT}%T${FS_EYE_DARK}]${RESET}"
+
+# Autocomplete applications for open(1) on OS X
+if [ "`uname`" = "Darwin" ]; then
+    compctl -f -x 'p[2]' -s "`/bin/ls -d1 /Applications/*/*.app /Applications/*.app | sed 's|^.*/\([^/]*\)\.app.*|\\1|;s/ /\\\\ /g'`" -- open
+    alias run='open -a'
+fi
+
+
+# History
+HISTFILE=~/.zsh/histfile
+HISTSIZE=1000
+SAVEHIST=1000
+
+
+# Other
+export CC=clang
+export CXX=clang++
+export EDITOR=vim
+
+# Get aliases
+source ~/.zsh/zsh_aliases
+

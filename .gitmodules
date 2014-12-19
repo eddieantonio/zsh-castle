@@ -1,0 +1,6 @@
+[submodule "home/.oh-my-zsh/custom/fluttershutter-theme"]
+	path = home/.oh-my-zsh/custom/fluttershutter-theme
+	url = https://github.com/eddieantonio/oh-my-zsh-fluttershutter-theme.git
+[submodule "home/.oh-my-zsh/custom/benclark-oh-my-zsh-plugins"]
+	path = home/.oh-my-zsh/custom/benclark-oh-my-zsh-plugins
+	url = https://github.com/benclark/oh-my-zsh-plugins.git

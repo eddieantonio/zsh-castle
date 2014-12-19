@@ -1,0 +1,1 @@
+../fluttershutter-theme/fluttershutter.zsh-theme
