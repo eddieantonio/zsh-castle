@@ -20,42 +20,55 @@ alias tarz='tar -xzvf'
 alias svi="sudo vim"
 alias mkdir='mkdir -p'
 alias isodate='date +%Y-%m-%d'
+alias unixtime='date +%s'
 
 # Python doctest
 alias doctest='python -m doctest'
 alias doctest3='python3 -m doctest'
 
+# Gets me in the habit of using a better Python...
+alias ipy=ipython
+
 # Jekyll post generation
 function post-jekyll {
-   $EDITOR `isodate`-$1.md
+   if [ -z "$1" ]; then
+     echo "Usage: provide a title argument."
+     exit -1
+   else
+     title="$@"
+   fi
+
+   d=$(date +"%Y-%m-%d")
+   D="$d $(date +"%H:%M:%S")"
+
+   slug=$(echo $title | tr '[:upper:]' '[:lower:]' | tr '[:space:]' '-')
+   slug="${slug:0:${#slug}-1}"
+   post="./_posts/$d-$slug.md"
+
+   body=""
+   read -d '' body <<EOF
+---
+title:  $title
+---
+
+EOF
+
+   echo "$body" > $post
+   $EDITOR $post
 }
 
 # Webdev stuff.
-# Mocha watch for coffeescript >= 1.7.0
-alias macchiato='mocha --compilers coffee:coffee-script/register --watch --reporter min'
 alias jeks='jekyll serve --baseurl "" --watch'
 
 # Erlang rebar stuff
 alias erlb='erl -pz ebin deps/*/ebin'
 
-# column awk
-function fawk {
-    first="awk '{print "
-    last="}'"
-    cmd="${first}\$${1}${last}"
-    eval $cmd
-}
-
-# For no real reason: 
+# For no real reason:
 alias rot13="tr '[A-Za-z]' '[N-ZA-Mn-za-m]'"
-
-# "UNIX legos", as Calvin calls 'em:
-# Find within all text files
-alias text='find . ! -path "*/.git/*" ! -path "*/.hg/*" | xargs file | grep text | cut -f 1 -d ":" | xargs'
 
 # Starts the named virtual machine.
 function vm-start {
-   VBoxManage startvm $1 --type headless 
+   VBoxManage startvm $1 --type headless
 }
 
 # Virtual Machine aliases
@@ -63,10 +76,10 @@ alias start-lmde='vm-start LMDE'
 alias pause-lmde='VBoxManage controlvm LMDE savestate'
 
 # Mount aliases
-alias ugrad-mount='mkdir -p ~/Desktop/ugrad && sshfs ugrad: ~/Desktop/ugrad'
-alias ugrad-unmount='fusermount -u ~/Desktop/ugrad && rmdir ~/Desktop/ugrad'
+alias cshome-mount='mkdir -p ~/Desktop/cshome && sshfs login: ~/Desktop/cshome'
+alias cshome-unmount='umount ~/Desktop/cshome && rmdir ~/Desktop/cshome'
 
-# This internet meme still has some life in it!
+# This will never run out of its novelty.
 alias such=git
 alias very=git
 alias much=git
@@ -75,9 +88,18 @@ alias wow='git status -s'
 # :/
 alias scm='rlwrap scheme'
 
-# :? 
+# :?
 alias yass='yes yass'
 
+# Get content-type of file.
+alias mime='file -b --mime-type'
+
+# View Apache/PHP errors.
+alias errors='tail -f /var/log/apache2/error_log'
+# View errors, but on the server!
+alias serrros='ssh livebook tail -f /var/log/apache2/error_log'
+
+# Use Pygements to colour source code in less.
 alias pcat='pygmentize -g'
 function pless () {
    pcat $1 | less
@@ -99,7 +121,7 @@ function itmux-ssh() {
     fi
 
     eval $CMD $arg_attach
-    
+
     if [[ $? -eq 0 ]]; then
         echo -e $GREEN"Session detached."$NORMAL
     else
@@ -109,3 +131,24 @@ function itmux-ssh() {
     fi
 }
 
+# Loads psysh(1) using the composer autoloader (assumes vendor/ is in base of
+# git repository).
+alias apsysh='psysh "$(git rev-parse --show-toplevel)"/vendor/autoload.php'
+alias dep='git push && fab d'
+
+# Webdev stuff.
+alias behat='$(git rev-parse --show-toplevel)/vendor/bin/behat' # --no-paths'
+alias jasmine='$(npm bin)/jasmine'
+
+alias mesh='4s-backend mesh && 4s-httpd -X mesh'
+alias mesh-stop='pkill 4s-backend ; pkill 4s-httpd'
+alias metamap-start='/usr/local/public_mm/bin/skrmedpostctl start && /usr/local/public_mm/bin/wsdserverctl start'
+alias metamap-stop='/usr/local/public_mm/bin/skrmedpostctl stop && /usr/local/public_mm/bin/wsdserverctl stop'
+alias serve='python -m SimpleHTTPServer &>>| .access.log &'
+
+# Pushes and deploys a project (e.g., LiveBook).
+alias dep='git push && fab deploy --user=easantos'
+
+# SymPy
+# This was difficult to accompish, but it happened!
+alias sympy='setsid ipython3 qtconsole --profile=sympy'

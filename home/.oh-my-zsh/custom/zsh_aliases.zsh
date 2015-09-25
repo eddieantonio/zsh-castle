@@ -4,6 +4,7 @@ function mkscript {
     case $1 in
         *.pl)    InterpreterPath="/usr/bin/perl";;
         *.py)    InterpreterPath="/usr/bin/env python";;
+        *.rb)    InterpreterPath="/usr/bin/env ruby";;
         *.sh)    InterpreterPath="/bin/sh";;
         *.scala) InterpreterPath="/usr/bin/env scala\n!#";;
         *)       InterpreterPath="/bin/sh"
@@ -17,11 +18,7 @@ function mkscript {
         emacs)  echo ':c' >> $1
     esac
     $EDITOR $EditorOpts $1
-
 }
-
-# Gets me in the habit of using a better Python...
-alias ipy=ipython
 
 # Ctrl-z magic!
 # https://gist.github.com/braidn/847209944a1f2377c568

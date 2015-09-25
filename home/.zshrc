@@ -24,23 +24,23 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(
     git
-    fabric
+
     # System package managers
     brew
 
-    # Virtualbox stuff!
-    virtualbox vmprompt
+    # Fabric!
+    fabric
 
     # Programming language package managers
-    sbt rebar 
+    nvm rebar
 
     # Programming lanaguages
-    scala python
+    python # virtualenvwrapper
 
     # Extra features.
     colored-man osx
     # Shell stuff.
-    tmuxinator virtualenvwrapper autojump
+    autojump
 
     # 😸
     nyan
@@ -77,11 +77,19 @@ export LANG="en_CA.UTF-8"
 export EDITOR=vim
 export VISUAL=vim
 
-export MANPATH=$MANPATH:/usr/local/opt/erlang/lib/erlang/man
-
 # Aliases... MY ALIASES!
 source ~/.aliases
 # Extra machine-specific stuff...
 if [ -e ~/.source-this-extra.sh ] ; then
     source ~/.source-this-extra.sh
 fi
+
+# Dumb pyside stuff.
+export DYLD_LIBRARY_PATH=/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/site-packages/PySide
+
+# Dumb nvm stuff
+export NVM_DIR=~/.nvm
+source $(brew --prefix nvm)/nvm.sh
+
+# added by travis gem
+[ -f /Users/eddieantonio/.travis/travis.sh ] && source /Users/eddieantonio/.travis/travis.sh
