@@ -20,19 +20,5 @@ function mkscript {
     $EDITOR $EditorOpts $1
 }
 
-# Ctrl-z magic!
-# https://gist.github.com/braidn/847209944a1f2377c568
-# Press ctrl-z to toggle in and out of a program (e.g., a REPL or vim).
-fancy-ctrl-z () {
-  if [[ $#BUFFER -eq 0 ]]; then
-    fg
-    zle redisplay
-  else
-    zle push-input
-  fi
-}
-zle -N fancy-ctrl-z
-bindkey '^Z' fancy-ctrl-z
-
 # Enable command-line comments:
 setopt interactivecomments

@@ -152,3 +152,21 @@ alias dep='git push && fab deploy --user=easantos'
 # SymPy
 # This was difficult to accompish, but it happened!
 alias sympy='setsid ipython3 qtconsole --profile=sympy'
+
+# 333
+alias vlab='sshXX 12 easantos'
+
+# Show/hide folders in Finder.
+alias hide='chflags hidden'
+
+
+# Disable pip outside of a virtualenv
+PIP_REQUIRE_VIRTUALENV=true
+
+# Circumvent the above restriction
+gpip(){
+   PIP_REQUIRE_VIRTUALENV="" pip $@
+}
+gpip3(){
+   PIP_REQUIRE_VIRTUALENV="" pip3 $@
+}

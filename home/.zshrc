@@ -12,6 +12,9 @@ if [ $ITERM_PROFILE = 'BPython' ]; then
     ZSH_THEME="jreese"
 fi
 
+# Disable auto updates!
+DISABLE_AUTO_UPDATE="true"
+
 # Let red dots to be displayed while waiting for completion.
 COMPLETION_WAITING_DOTS="true"
 
@@ -35,7 +38,10 @@ plugins=(
     nvm rebar
 
     # Programming lanaguages
-    python # virtualenvwrapper
+    python virtualenvwrapper
+
+    # Hit ctrl-z in an empty prompt to fg a background progress.
+    fancy-ctrl-z
 
     # Extra features.
     colored-man osx
@@ -43,7 +49,7 @@ plugins=(
     autojump
 
     # 😸
-    nyan
+    nyan emoji
 )
 
 export PROJECT_HOME=~/Projects/
@@ -53,6 +59,12 @@ source $ZSH/oh-my-zsh.sh
 
 # `gm`, imported from the git plugin, conflicts with GraphicsMagick
 unalias gm
+
+
+# Load rbenv automatically by appending
+# the following to ~/.zshrc:
+
+#eval "$(rbenv init -)"
 
 
 # Options #####################################################################
@@ -69,9 +81,11 @@ setopt no_notify
 
 
 # HARDCODED RUBY AND PYTHON PATH
-export PATH=$PATH:/usr/local/opt/ruby:$HOME/Library/Python/2.7/bin
+#export PATH=$PATH:/usr/local/opt/ruby:$HOME/Library/Python/2.7/bin:/Users/eddieantonio/.gem/ruby/2.2.0/bin
+#export PATH=~/anaconda3/bin:$PATH
 
 export LANG="en_CA.UTF-8"
+export LC_CTYPE="en_CA.UTF-8"
 
 # Ma editor.
 export EDITOR=vim
@@ -93,3 +107,18 @@ source $(brew --prefix nvm)/nvm.sh
 
 # added by travis gem
 [ -f /Users/eddieantonio/.travis/travis.sh ] && source /Users/eddieantonio/.travis/travis.sh
+
+# AWESOME ZSH IGNORED PATTERNS!
+zstyle ':completion::complete:vim:*' ignored-patterns \
+    '*.o' '*.d' '*.pyc'
+
+export LICENSE_OWNER='Eddie Antonio Santos'
+
+# Pip MUST install only if a virtualenv is installed...
+export PIP_REQUIRE_VIRTUALENV=true
+
+test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
+
+export TYPEV_PATH=/Users/eddieantonio/Projects/CMPUT664_Project
+
+#export http_proxy='http://localhost:2000/proxy.pac'
