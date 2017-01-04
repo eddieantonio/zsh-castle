@@ -1,19 +1,6 @@
 # OH MY ZSH!
 # https://github.com/robbyrussell/oh-my-zsh
 
-### DELETEME ###
-#zmodload zsh/datetime
-#setopt promptsubst
-#PS4='+$EPOCHREALTIME %N:%i> '
-# set the trace prompt to include seconds, nanoseconds, script name and line number
-# This is GNU date syntax; by default Macs ship with the BSD date program, which isn't compatible
-# save file stderr to file descriptor 3 and redirect stderr (including trace
-# output) to a file with the script's PID as an extension
-#exec 3>&2 2>/tmp/startlog.$$
-# set options to turn on tracing and expansion of commands contained in the prompt
-#setopt xtrace prompt_subst
-###
-
 # Enables command-not-found using brew.
 if brew command command-not-found-init > /dev/null; then eval "$(brew command-not-found-init)"; fi
 
@@ -139,10 +126,3 @@ if which pyenv > /dev/null; then
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
 fi
-
-### DELETEME ###
-# turn off tracing
-#unsetopt xtrace
-# restore stderr to the value saved in FD 3
-#exec 2>&3 3>&-
-###
