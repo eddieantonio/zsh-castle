@@ -1,6 +1,22 @@
 # OH MY ZSH!
 # https://github.com/robbyrussell/oh-my-zsh
 
+### DELETEME ###
+#zmodload zsh/datetime
+#setopt promptsubst
+#PS4='+$EPOCHREALTIME %N:%i> '
+# set the trace prompt to include seconds, nanoseconds, script name and line number
+# This is GNU date syntax; by default Macs ship with the BSD date program, which isn't compatible
+# save file stderr to file descriptor 3 and redirect stderr (including trace
+# output) to a file with the script's PID as an extension
+#exec 3>&2 2>/tmp/startlog.$$
+# set options to turn on tracing and expansion of commands contained in the prompt
+#setopt xtrace prompt_subst
+###
+
+# Enables command-not-found using brew.
+if brew command command-not-found-init > /dev/null; then eval "$(brew command-not-found-init)"; fi
+
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
@@ -28,9 +44,6 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 plugins=(
     git
 
-    # System package managers
-    brew
-
     # Fabric!
     fabric
 
@@ -38,21 +51,24 @@ plugins=(
     nvm rebar
 
     # Programming lanaguages
-    python virtualenvwrapper
+    python
+    #virtualenvwrapper
 
     # Hit ctrl-z in an empty prompt to fg a background progress.
     fancy-ctrl-z
 
     # Extra features.
-    colored-man osx
+    colored-man osx httpie
     # Shell stuff.
     autojump
+
+    # Docker compose!
+    docker-compose
 
     # 😸
     nyan emoji
 )
 
-export PROJECT_HOME=~/Projects/
 
 # Do that Oh My ZSH magic!
 source $ZSH/oh-my-zsh.sh
@@ -82,14 +98,9 @@ setopt no_notify
 
 # HARDCODED RUBY AND PYTHON PATH
 #export PATH=$PATH:/usr/local/opt/ruby:$HOME/Library/Python/2.7/bin:/Users/eddieantonio/.gem/ruby/2.2.0/bin
-#export PATH=~/anaconda3/bin:$PATH
 
 export LANG="en_CA.UTF-8"
 export LC_CTYPE="en_CA.UTF-8"
-
-# Ma editor.
-export EDITOR=vim
-export VISUAL=vim
 
 # Aliases... MY ALIASES!
 source ~/.aliases
@@ -97,9 +108,6 @@ source ~/.aliases
 if [ -e ~/.source-this-extra.sh ] ; then
     source ~/.source-this-extra.sh
 fi
-
-# Dumb pyside stuff.
-export DYLD_LIBRARY_PATH=/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/site-packages/PySide
 
 # Dumb nvm stuff
 export NVM_DIR=~/.nvm
@@ -110,15 +118,31 @@ source $(brew --prefix nvm)/nvm.sh
 
 # AWESOME ZSH IGNORED PATTERNS!
 zstyle ':completion::complete:vim:*' ignored-patterns \
-    '*.o' '*.d' '*.pyc'
+    '*.o' '*.pyc'
 
-export LICENSE_OWNER='Eddie Antonio Santos'
-
-# Pip MUST install only if a virtualenv is installed...
-export PIP_REQUIRE_VIRTUALENV=true
 
 test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
 
-export TYPEV_PATH=/Users/eddieantonio/Projects/CMPUT664_Project
+function docker-default() {
+    docker-machine start default
+    eval $(docker-machine env default)
+}
 
-#export http_proxy='http://localhost:2000/proxy.pac'
+
+# https://www.gitignore.io/
+function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
+# This is a good way too:
+# git config --global alias.ignore '!gi() { curl -L -s https://www.gitignore.io/api/$@ ;}; gi'
+
+# pyenv
+if which pyenv > /dev/null; then
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+fi
+
+### DELETEME ###
+# turn off tracing
+#unsetopt xtrace
+# restore stderr to the value saved in FD 3
+#exec 2>&3 3>&-
+###

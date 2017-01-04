@@ -85,9 +85,6 @@ alias very=git
 alias much=git
 alias wow='git status -s'
 
-# :/
-alias scm='rlwrap scheme'
-
 # :?
 alias yass='yes yass'
 
@@ -134,34 +131,25 @@ function itmux-ssh() {
 # Loads psysh(1) using the composer autoloader (assumes vendor/ is in base of
 # git repository).
 alias apsysh='psysh "$(git rev-parse --show-toplevel)"/vendor/autoload.php'
-alias dep='git push && fab d'
 
 # Webdev stuff.
 alias behat='$(git rev-parse --show-toplevel)/vendor/bin/behat' # --no-paths'
 alias jasmine='$(npm bin)/jasmine'
 
-alias mesh='4s-backend mesh && 4s-httpd -X mesh'
-alias mesh-stop='pkill 4s-backend ; pkill 4s-httpd'
 alias metamap-start='/usr/local/public_mm/bin/skrmedpostctl start && /usr/local/public_mm/bin/wsdserverctl start'
 alias metamap-stop='/usr/local/public_mm/bin/skrmedpostctl stop && /usr/local/public_mm/bin/wsdserverctl stop'
-alias serve='python -m SimpleHTTPServer &>>| .access.log &'
+#alias serve='python -m SimpleHTTPServer &>>| .access.log &'
 
 # Pushes and deploys a project (e.g., LiveBook).
+#alias dep='git push && fab d'
 alias dep='git push && fab deploy --user=easantos'
-
-# SymPy
-# This was difficult to accompish, but it happened!
-alias sympy='setsid ipython3 qtconsole --profile=sympy'
-
-# 333
-alias vlab='sshXX 12 easantos'
 
 # Show/hide folders in Finder.
 alias hide='chflags hidden'
 
+# Unconditionally git commit --ammend
+alias gcamend='env GIT_EDITOR=true git commit --amend'
 
-# Disable pip outside of a virtualenv
-PIP_REQUIRE_VIRTUALENV=true
 
 # Circumvent the above restriction
 gpip(){
@@ -169,4 +157,33 @@ gpip(){
 }
 gpip3(){
    PIP_REQUIRE_VIRTUALENV="" pip3 $@
+}
+
+# Print from the grad student printers!
+function gradprint() {
+    if [ -z "$1" ] ; then
+        echo "Must provide a filename." 1>&2
+        return 1
+    fi
+
+    if ! stat -qf '' $1 ; then
+        echo "File \`\`$1'' does not exist!" 1>&2
+        return 2
+    fi
+
+    FILENAME=/tmp/$(basename $1)
+    REMOTE=login
+    scp $1 $REMOTE:$FILENAME && ssh -Y $REMOTE xdg-open $FILENAME
+}
+
+# ANTLR4 stuff
+alias antlr4='java -Xmx500M -cp "/usr/local/lib/antlr-4.5-complete.jar:$CLASSPATH" org.antlr.v4.Tool'
+alias grun='java org.antlr.v4.runtime.misc.TestRig'
+
+# manswitch <cmd> <flag>
+# e.g., 
+# manswitch curl -x
+# From: https://www.commandlinefu.com/commands/view/9065/what-is-the-use-of-this-switch-
+function manswitch () {
+   man $1 | less -p "^ +$2"
 }
